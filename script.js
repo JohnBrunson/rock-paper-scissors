@@ -22,10 +22,22 @@ function start() {
         sessionStatistics.player = prompt("What is your name?")
         // TODO: If cancel is selected, stop the game.
         console.log(`INFO: Player name logged: ${sessionStatistics.player}`);
+        saveSession = confirm("Do you want to save your session? If you do, a small amount of space will be taken by the save file.");
         newGame = false;
+        return saveSession;
     };
 
 
+};
+
+function userStorage() {
+    // Validating that we don't have a blank name.
+    console.log("userStorage was called.")
+    if ((typeof sessionStatistics.player !== 'undefined') && saveSession === true) {
+        //save this to local storage. Since local storage doesn't accept anything but a string, it's necessary to convert the object to a string.
+        localStorage.setItem(sessionStatistics.player, JSON.stringify(sessionStatistics))
+        console.log(`localStorage.length is ${localStorage.length}`);
+    }
 };
 
 function playerDecision() {
@@ -85,6 +97,7 @@ function scoring () {
 while (playAgain === true){
     //made into functions for ease of troubleshooting/isolating logic.
     start();
+    userStorage();
     playerDecision();
     computerDecision();
     scoring();
